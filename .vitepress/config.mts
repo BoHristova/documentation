@@ -238,6 +238,7 @@ function getHeadConfig(){
     ['link', { rel: 'manifest', href: '/site.webmanifest' }],
     /* End: https://realfavicongenerator.net */
     ['meta', {name: 'theme-color', content: '#009f76'}],
+    [`meta`, {name: 'algolia-site-verification', content: 'BB4150F3C1427D6C'}],
     ['meta', {property: 'og:type', content: 'website'}],
     ['meta', {property: 'og:site_name', content: 'Gardener'}],
     [
