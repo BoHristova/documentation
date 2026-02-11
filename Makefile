@@ -138,7 +138,7 @@ post-process: ## Run post-processing scripts
 
 .PHONY: build
 build: ## Build the documentation site
-	VITE_PUBLIC_BASE_PATH='' npx vitepress build
+	npx vitepress build
 
 .PHONY: docforge-ci
 docforge-ci: docforge-download ## Run docforge in CI mode (non-interactive)
