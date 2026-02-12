@@ -112,7 +112,7 @@ function getSearchConfig() {
         appId: '5C7IBGP8O4',
         apiKey: '323267c567e1abffe8c205940da62d15',
         indexName: 'Algolia Crawler',
-        maxResultsPerGroup: 15,
+        insights: true,
       }
     }
 }
