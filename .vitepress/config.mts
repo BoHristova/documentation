@@ -216,6 +216,12 @@ function getViteConfig() {
           )
         },
         {
+          find: /^.*\/VPAlgoliaSearchBox\.vue$/, // TODo remove me and the component before merge to master
+          replacement: fileURLToPath(
+              new URL('./theme/components/VPAlgoliaSearchBox.vue', import.meta.url)
+          )
+        },
+        {
           find: /^.*\/VPSidebarGroup\.vue$/,
           replacement: fileURLToPath(
               new URL('./theme/components/VPSidebarGroup.vue', import.meta.url)
