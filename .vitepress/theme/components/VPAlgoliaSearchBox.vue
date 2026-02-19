@@ -84,8 +84,23 @@ function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
 
     transformItems(items) {
       return items.map((item) => {
+        const breadcrumbValue = item.breadcrumb || item.hierarchy.lvl0;
         return Object.assign({}, item, {
-          url: getRelativePath(item.url)
+          url: getRelativePath(item.url),
+          hierarchy: {
+            ...item.hierarchy,
+            lvl0: breadcrumbValue
+          },
+          _highlightResult: {
+            ...item._highlightResult,
+            hierarchy: {
+              ...item._highlightResult.hierarchy,
+              lvl0: {
+                ...item._highlightResult.hierarchy.lvl0,
+                value: breadcrumbValue
+              }
+            }
+          }
         })
       })
     }

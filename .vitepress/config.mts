@@ -113,6 +113,17 @@ function getSearchConfig() {
         apiKey: '323267c567e1abffe8c205940da62d15',
         indexName: 'Algolia Crawler',
         insights: true,
+        searchParameters: {
+          attributesToRetrieve: [
+            'hierarchy',
+            'content',
+            'anchor',
+            'url',
+            'url_without_anchor',
+            'type',
+            'breadcrumb'
+          ]
+        }
       }
     }
 }
