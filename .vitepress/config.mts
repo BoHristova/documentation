@@ -116,6 +116,7 @@ function getSearchConfig() {
         searchParameters: {
           attributesToRetrieve: [
             'hierarchy',
+            `ownLevel`,
             'content',
             'anchor',
             'url',
