@@ -5,10 +5,11 @@ weight: 3
 
 ## Keys
 
-There are plenty of keys in Gardener.
+There are plenty of keys in gardener.
 The ETCD needs one to store resources like secrets encrypted at rest.
-Gardener generates certificate authorities (CAs) to ensure secured communication between the various components and actors and service account tokens are signed with a dedicated key.
-There is also an SSH key pair to allow debugging of nodes and the observability stack has its own passwords too.
+gardener generates certificate authorities (CAs) to ensure secured communication between the various components and actors and service account tokens are signed with a dedicated key.
+There is also a SSH key pair to allow the user to debug nodes and the observability stack has its own passwords too.
+The blacklist of rotated credentials is managed seperately.
 
 ![keys](./images/keys.png)
 
