@@ -1,0 +1,16 @@
+extends: substitution
+message: "Use '%s' instead of '%s'. Prefer inclusive and modern terminology."
+level: warning
+action:
+  name: replace
+ignorecase: false
+swap:
+  whitelist: allowlist
+  blacklist: denylist
+  greylist: graylist
+  grey-list: gray-list
+  abort: stop
+  kill: stop
+  sanity check: confidence check
+  dummy: placeholder
+  mankind: humankind

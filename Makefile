@@ -156,3 +156,36 @@ docforge-ci: docforge-download ## Run docforge in CI mode (non-interactive)
 
 .PHONY: ci-build
 ci-build: docforge-ci install post-process build ## Run all steps for building in CI
+
+.PHONY: vale-install
+vale-install: ## Install Vale if not already present
+	@if command -v vale >/dev/null 2>&1; then \
+		echo "Vale is already installed: $$(vale --version)"; \
+	elif [ "$$(uname)" = "Darwin" ]; then \
+		echo "Installing Vale via Homebrew..."; \
+		brew install vale; \
+	elif [ "$$(uname)" = "Linux" ]; then \
+		echo "Installing Vale for Linux AMD64..."; \
+		mkdir -p bin; \
+		curl -sL https://github.com/errata-ai/vale/releases/download/v3.14.1/vale_3.14.1_Linux_64-bit.tar.gz | tar -xz -C bin vale; \
+		echo "Vale installed to bin/vale. Add bin/ to your PATH or run: bin/vale"; \
+	elif echo "$$(uname -s)" | grep -qi "mingw\|cygwin\|msys"; then \
+		echo "Installing Vale via Chocolatey..."; \
+		choco install vale; \
+	else \
+		echo "Unsupported OS. Install Vale manually: https://vale.sh/docs/install"; \
+		exit 1; \
+	fi
+
+.PHONY: vale
+vale: vale-install ## Sync Vale packages and lint locally changed markdown files
+	@echo "Syncing Vale style packages..."
+	@vale sync
+	@echo "Running Vale..."
+	@CHANGED=$$({ git diff --name-only HEAD -- 'website/**/*.md' 2>/dev/null; git diff --name-only --cached HEAD -- 'website/**/*.md' 2>/dev/null; } | sort -u | grep '\.md$$' | while read f; do [ -f "$$f" ] && echo "$$f"; done); \
+	if [ -n "$$CHANGED" ]; then \
+		echo "Linting files changed vs HEAD..."; \
+		vale $$CHANGED; \
+	else \
+		echo "No locally changed .md files detected. Nothing to lint."; \
+	fi

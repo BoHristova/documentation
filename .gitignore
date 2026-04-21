@@ -10,6 +10,8 @@ hugo/.forestry
 hugo/**
 
 !.github/**/*.yaml
+!.coderabbit.yaml
+!.pre-commit-config.yaml
 content
 .vitepress/theme/utils/debug/**
 

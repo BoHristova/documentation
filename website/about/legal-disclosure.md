@@ -3,6 +3,8 @@ editLink: false
 aside: false
 ---
 
+<!-- vale off -->
+
 # Impressum
 
 **SAP Deutschland SE & Co. KG**  
