@@ -37,9 +37,9 @@ jobs:
         with:
           version: 3.14.1
           files: ${{ steps.changed-files.outputs.all_changed_files }}
-          reporter: github-pr-review
+          reporter: github-pr-annotations
           fail_on_error: true
           filter_mode: diff_context
-          vale_flags: "--minAlertLevel=error"
+          vale_flags: "--minAlertLevel=warning"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
