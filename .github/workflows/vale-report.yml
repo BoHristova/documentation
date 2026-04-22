@@ -53,7 +53,8 @@ jobs:
             --ranges .vale-artifacts/line_ranges.txt \
             --output vale_report.md \
             --repo "${{ github.repository }}" \
-            --pr "${{ steps.pr-number.outputs.pr_number }}"
+            --pr "${{ steps.pr-number.outputs.pr_number }}" \
+            --branch "${{ github.event.workflow_run.head_branch }}"
 
       - name: Post sticky comment
         if: steps.pr-number.outputs.pr_number != ''

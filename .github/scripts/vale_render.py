@@ -26,10 +26,19 @@ MAX_ISSUES    = 1000
 ALLOWED_SEVERITIES = frozenset({"error", "warning", "suggestion"})
 RULE_PATTERN = re.compile(r'^[A-Za-z0-9_.]+$')
 
-REPORT_FOOTER = """
+REPORT_FOOTER_BASE = """
 ---
 
 Vale checks documentation changes against the [Gardener style guide](https://gardener.cloud/docs/contribute/documentation/style-guide/).
+"""
+
+def report_footer(branch: str) -> str:
+    if not branch:
+        return REPORT_FOOTER_BASE
+    return REPORT_FOOTER_BASE + f"""
+**Fix with Claude Code** (run locally on branch `{branch}`):
+- Fix all issues: `claude "checkout branch {branch}, run make vale, then fix all errors and warnings"`
+- Fix errors only: `claude "checkout branch {branch}, run make vale, then fix only the errors, ignore warnings"`
 """
 
 # --- sanitization ------------------------------------------------------------
@@ -119,7 +128,7 @@ def diff_link(path: str, line: int, repo: str, pr: str) -> str:
 
 # --- rendering ---------------------------------------------------------------
 
-def render(data: dict, ranges: dict, repo: str, pr: str) -> str:
+def render(data: dict, ranges: dict, repo: str, pr: str, branch: str) -> str:
     groups: dict = {"error": [], "warning": [], "suggestion": []}
     total_issues = sum(len(v) for v in data.values())
     if total_issues > MAX_ISSUES:
@@ -142,7 +151,7 @@ def render(data: dict, ranges: dict, repo: str, pr: str) -> str:
     total       = len(errors) + len(warnings) + len(suggestions)
 
     if total == 0:
-        return "## ✅ Vale Linting Results\n\n**No issues found on modified lines.**\n" + REPORT_FOOTER
+        return "## ✅ Vale Linting Results\n\n**No issues found on modified lines.**\n" + report_footer(branch)
 
     parts = []
     if errors:      parts.append(f"{len(errors)} error{'s' if len(errors) != 1 else ''}")
@@ -164,7 +173,7 @@ def render(data: dict, ranges: dict, repo: str, pr: str) -> str:
         report += "\n".join(items) + "\n"
         report += "\n</details>\n\n"
 
-    report += REPORT_FOOTER
+    report += report_footer(branch)
     return report
 
 # --- main --------------------------------------------------------------------
@@ -176,6 +185,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--repo",   default="")
     parser.add_argument("--pr",     default="")
+    parser.add_argument("--branch", default="")
     args = parser.parse_args()
 
     for path in (args.input, args.output):
@@ -207,7 +217,7 @@ def main() -> int:
         return 1
 
     ranges = load_ranges(args.ranges)
-    report = render(data, ranges, args.repo, args.pr)
+    report = render(data, ranges, args.repo, args.pr, args.branch)
 
     try:
         with open(args.output, "w", encoding="utf-8") as f:
