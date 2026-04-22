@@ -31,75 +31,14 @@ jobs:
             website/about/legal-disclosure.md
             website/archived/**
 
-      - name: Install Vale
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: |
-          wget -qO vale.tar.gz https://github.com/errata-ai/vale/releases/download/v3.14.1/vale_3.14.1_Linux_64-bit.tar.gz
-          tar -xzf vale.tar.gz vale
-          sudo mv vale /usr/local/bin/vale
-
       - name: Run Vale
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: |
-          vale --minAlertLevel=warning --output=JSON \
-            ${{ steps.changed-files.outputs.all_changed_files }} \
-            > vale_output.json || true
-
-      - name: Generate job summary
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: |
-          python3 - <<'EOF'
-          import json, os, sys
-
-          with open("vale_output.json") as f:
-              data = json.load(f)
-
-          errors, warnings, suggestions = [], [], []
-
-          for path, findings in data.items():
-              for f in findings:
-                  entry = f"| `{path}` | {f['Line']} | {f['Check']} | {f['Message']} |"
-                  sev = f["Severity"]
-                  if sev == "error":
-                      errors.append(entry)
-                  elif sev == "warning":
-                      warnings.append(entry)
-                  else:
-                      suggestions.append(entry)
-
-          lines = []
-
-          if not errors and not warnings and not suggestions:
-              lines.append("## ✅ Vale — no issues found")
-          else:
-              total = len(errors) + len(warnings) + len(suggestions)
-              lines.append(f"## Vale — {total} issue(s) found")
-              lines.append("")
-
-              table_header = "| File | Line | Rule | Message |\n|---|---|---|---|"
-
-              if errors:
-                  lines.append(f"<details><summary>❌ Errors ({len(errors)})</summary>\n")
-                  lines.append(table_header)
-                  lines.extend(errors)
-                  lines.append("\n</details>\n")
-
-              if warnings:
-                  lines.append(f"<details><summary>⚠️ Warnings ({len(warnings)})</summary>\n")
-                  lines.append(table_header)
-                  lines.extend(warnings)
-                  lines.append("\n</details>\n")
-
-              if suggestions:
-                  lines.append(f"<details><summary>💡 Suggestions ({len(suggestions)})</summary>\n")
-                  lines.append(table_header)
-                  lines.extend(suggestions)
-                  lines.append("\n</details>\n")
-
-          summary = os.environ.get("GITHUB_STEP_SUMMARY")
-          with open(summary, "w") as f:
-              f.write("\n".join(lines))
-
-          if errors:
-              sys.exit(1)
-          EOF
+        uses: vale-cli/vale-action@v2.1.1
+        with:
+          version: 3.14.1
+          files: ${{ steps.changed-files.outputs.all_changed_files }}
+          fail_on_error: true
+          filter_mode: diff_context
+          vale_flags: "--minAlertLevel=warning"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
