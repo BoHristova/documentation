@@ -1,0 +1,45 @@
+name: Vale
+
+on:
+  pull_request:
+    paths:
+      - 'website/**/*.md'
+      - '.vale.ini'
+      - '.github/styles/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  vale:
+    name: Lint prose
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            website/**/*.md
+          files_ignore: |
+            website/about/legal-disclosure.md
+            website/archived/**
+
+      - name: Install Vale
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          wget -qO vale.tar.gz https://github.com/errata-ai/vale/releases/download/v3.14.1/vale_3.14.1_Linux_64-bit.tar.gz
+          tar -xzf vale.tar.gz vale
+          sudo mv vale /usr/local/bin/vale
+
+      - name: Run Vale
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: vale ${{ steps.changed-files.outputs.all_changed_files }}
