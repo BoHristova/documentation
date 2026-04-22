@@ -35,14 +35,14 @@ jobs:
             website/archived/**
 
       - name: Install Vale
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           wget -qO vale.tar.gz https://github.com/errata-ai/vale/releases/download/v3.14.1/vale_3.14.1_Linux_64-bit.tar.gz
           tar -xzf vale.tar.gz vale
           sudo mv vale /usr/local/bin/vale
 
       - name: Fetch PR diff line ranges
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -52,14 +52,16 @@ jobs:
             > line_ranges.txt || true
 
       - name: Run Vale
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: |
-          vale --minAlertLevel=warning --output=JSON \
-            ${{ steps.changed-files.outputs.all_changed_files }} \
-            > vale_output.json || true
+          FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+          if [ -z "$FILES" ]; then
+            FILES="website/"
+          fi
+          vale --minAlertLevel=warning --output=JSON $FILES > vale_output.json || true
 
       - name: Upload results
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: vale-results
