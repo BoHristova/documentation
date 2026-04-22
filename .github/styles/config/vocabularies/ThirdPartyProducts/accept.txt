@@ -92,6 +92,20 @@ Rego
 ArgoCD
 FluxCD
 Tekton
+OpenSearch
+Dynatrace
+SonarQube
+Artifactory
+
+# IaC and GitOps tooling
+Crossplane
+Pulumi
+Upjet
+Upbound
+
+# Container tooling
+Podman
+podman
 
 # Brands
 GitHub
