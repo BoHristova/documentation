@@ -157,8 +157,8 @@ docforge-ci: docforge-download ## Run docforge in CI mode (non-interactive)
 .PHONY: ci-build
 ci-build: docforge-ci install post-process build vale-ci ## Run all steps for building in CI
 
-.PHONY: vale-ci
-vale-ci: ## Install Vale, sync packages, and lint all website markdown (informational, never fails)
+.PHONY: vale-install
+vale-install: ## Install Vale if needed and sync style packages
 	@if ! command -v vale >/dev/null 2>&1; then \
 		echo "Installing Vale..."; \
 		VALE_VERSION="3.14.1"; \
@@ -169,20 +169,9 @@ vale-ci: ## Install Vale, sync packages, and lint all website markdown (informat
 	fi
 	@echo "Syncing Vale style packages..."
 	@vale sync
-	@echo "Running Vale on website/..."
-	@vale --minAlertLevel=warning website/ || true
 
 .PHONY: vale
-vale: ## Sync Vale packages and lint locally changed markdown files
-	@if ! command -v vale >/dev/null 2>&1; then \
-		echo "Vale is not installed. Install it first:"; \
-		echo "  macOS:  brew install vale"; \
-		echo "  Linux:  https://vale.sh/docs/install"; \
-		echo "  Windows: choco install vale"; \
-		exit 1; \
-	fi
-	@echo "Syncing Vale style packages..."
-	@vale sync
+vale: vale-install ## Lint locally changed markdown files
 	@echo "Running Vale on changed files..."
 	@CHANGED=$$(git diff --name-only HEAD -- 'website/**/*.md' 2>/dev/null | grep '\.md$$' | while read f; do [ -f "$$f" ] && echo "$$f"; done); \
 	if [ -n "$$CHANGED" ]; then \
@@ -190,3 +179,8 @@ vale: ## Sync Vale packages and lint locally changed markdown files
 	else \
 		echo "No changed .md files detected. Nothing to lint."; \
 	fi
+
+.PHONY: vale-ci
+vale-ci: vale-install ## Lint all website markdown (informational, never fails)
+	@echo "Running Vale on website/..."
+	@vale --minAlertLevel=warning website/ || true
