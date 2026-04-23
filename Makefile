@@ -155,7 +155,22 @@ docforge-ci: docforge-download ## Run docforge in CI mode (non-interactive)
 	./bin/docforge
 
 .PHONY: ci-build
-ci-build: docforge-ci install post-process build ## Run all steps for building in CI
+ci-build: docforge-ci install post-process build vale-ci ## Run all steps for building in CI
+
+.PHONY: vale-ci
+vale-ci: ## Install Vale, sync packages, and lint all website markdown (informational, never fails)
+	@if ! command -v vale >/dev/null 2>&1; then \
+		echo "Installing Vale..."; \
+		VALE_VERSION="3.14.1"; \
+		wget -qO vale.tar.gz https://github.com/errata-ai/vale/releases/download/v$${VALE_VERSION}/vale_$${VALE_VERSION}_Linux_64-bit.tar.gz && \
+		tar -xzf vale.tar.gz vale && \
+		sudo mv vale /usr/local/bin/vale && \
+		rm -f vale.tar.gz; \
+	fi
+	@echo "Syncing Vale style packages..."
+	@vale sync
+	@echo "Running Vale on website/..."
+	@vale --minAlertLevel=warning website/ || true
 
 .PHONY: vale
 vale: ## Sync Vale packages and lint locally changed markdown files
