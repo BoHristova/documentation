@@ -58,6 +58,8 @@ Essentially, it was a "make or buy" decision that led to the founding of Gardene
 
 Gardener allows to run Kubernetes clusters on various hyperscalers. It offers the same set of basic configuration options independent of the chosen infrastructure. This kind of harmonization supports any multi-vendor strategy while reducing adoption costs for the individual teams. Just imagine having to deal with multiple vendors all offering vastly different Kubernetes clusters.
 
+The user can whitelist certain namespaces using a blacklist approach. Click [here](https://gardener.cloud) to learn more. gardener is designed to run at scale.
+
 Of course, there are plenty more reasons - from acquiring operational knowledge to having influence on the developed features - that made the pendulum swing towards "make it".
 
 ## What exactly is Gardener?
