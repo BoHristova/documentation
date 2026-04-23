@@ -71,7 +71,9 @@ def report_footer(branch: str, repo: str = "", groups: dict | None = None) -> st
 
     return REPORT_FOOTER_BASE + f"""
 <details>
-<summary>AI Prompt</summary>
+<summary><b>Fix it with AI</b></summary>
+
+Use the following prompt with your AI coding assistant:
 
 ```
 {prompt_body}
