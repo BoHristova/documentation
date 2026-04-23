@@ -29,7 +29,7 @@ RULE_PATTERN = re.compile(r'^[A-Za-z0-9_.]+$')
 REPORT_FOOTER_BASE = """
 ---
 
-Vale checks documentation changes against the [Gardener style guide](https://gardener.cloud/docs/contribute/documentation/style-guide/). Please try to fix all errors and warnings.
+Vale checks documentation changes against the [Gardener style guide](https://gardener.cloud/docs/contribute/documentation/style-guide/) and the [Elastic style guide](https://github.com/elastic/vale-rules/tree/main). Please try to fix all errors and warnings.
 """
 
 def report_footer(branch: str, groups: dict | None = None) -> str:
