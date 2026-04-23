@@ -107,6 +107,9 @@ dist
 # Docforge binary directory
 /bin
 
+# Vale downloaded style packages
+.vale/styles/Elastic/
+
 # vuepress build output
 .vuepress/dist
 

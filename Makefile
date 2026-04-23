@@ -156,3 +156,22 @@ docforge-ci: docforge-download ## Run docforge in CI mode (non-interactive)
 
 .PHONY: ci-build
 ci-build: docforge-ci install post-process build ## Run all steps for building in CI
+
+.PHONY: vale
+vale: ## Sync Vale packages and lint locally changed markdown files
+	@if ! command -v vale >/dev/null 2>&1; then \
+		echo "Vale is not installed. Install it first:"; \
+		echo "  macOS:  brew install vale"; \
+		echo "  Linux:  https://vale.sh/docs/install"; \
+		echo "  Windows: choco install vale"; \
+		exit 1; \
+	fi
+	@echo "Syncing Vale style packages..."
+	@vale sync
+	@echo "Running Vale on changed files..."
+	@CHANGED=$$(git diff --name-only HEAD -- 'website/**/*.md' 2>/dev/null | grep '\.md$$' | while read f; do [ -f "$$f" ] && echo "$$f"; done); \
+	if [ -n "$$CHANGED" ]; then \
+		vale $$CHANGED; \
+	else \
+		echo "No changed .md files detected. Nothing to lint."; \
+	fi
