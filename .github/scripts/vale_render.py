@@ -32,13 +32,13 @@ REPORT_FOOTER_BASE = """
 Vale checks documentation changes against the [Gardener style guide](https://gardener.cloud/docs/contribute/documentation/style-guide/) and the [Elastic style guide](https://github.com/elastic/vale-rules/tree/main). Please try to fix all errors and warnings.
 """
 
-def report_footer(branch: str, groups: dict | None = None) -> str:
+def report_footer(branch: str, repo: str = "", groups: dict | None = None) -> str:
     if not branch:
         return REPORT_FOOTER_BASE
     if not groups or not any(groups.values()):
         return REPORT_FOOTER_BASE
 
-    lines = ["Verify each finding against the current code and only fix it if needed.\n"]
+    lines = []
     for sev, label in [("error", "Errors"), ("warning", "Warnings"), ("suggestion", "Suggestions")]:
         items = groups.get(sev, [])
         if not items:
@@ -54,7 +54,20 @@ def report_footer(branch: str, groups: dict | None = None) -> str:
                 lines.append(f"- In {path}, line {line} ({rule}): {message}")
         lines.append("")
 
-    prompt_body = "\n".join(lines).strip()
+    findings = "\n".join(lines).strip()
+
+    meta = f"Upstream: {repo}\n" if repo else ""
+    prompt_body = (
+        f'The following issues were found by Vale, '
+        f'a prose linter that checks documentation against the Gardener and Elastic style guides.\n\n'
+        f'Before fixing anything, read each flagged line in context and judge whether the finding is a real issue. '
+        f'Vale sometimes reports false positives — only fix a finding if it genuinely violates the style guide. '
+        f'Skip it if the text looks correct as-is. '
+        f'You can verify your fixes locally by running \'make vale\'.\n\n'
+        f'{findings}\n\n'
+        f'{meta}'
+        f'Branch: {branch}'
+    )
 
     return REPORT_FOOTER_BASE + f"""
 <details>
@@ -177,7 +190,7 @@ def render(data: dict, ranges: dict, repo: str, pr: str, branch: str) -> str:
     total       = len(errors) + len(warnings) + len(suggestions)
 
     if total == 0:
-        return "## ✅ Vale Linting Check\n\n**No issues found on modified lines.**\n" + report_footer(branch)
+        return "## ✅ Vale Linting Check\n\n**No issues found on modified lines.**\n" + report_footer(branch, repo)
 
     parts = []
     if errors:      parts.append(f"{len(errors)} error{'s' if len(errors) != 1 else ''}")
@@ -199,7 +212,7 @@ def render(data: dict, ranges: dict, repo: str, pr: str, branch: str) -> str:
         report += "\n".join(items) + "\n"
         report += "\n</details>\n\n"
 
-    report += report_footer(branch, groups)
+    report += report_footer(branch, repo, groups)
     return report
 
 # --- main --------------------------------------------------------------------
