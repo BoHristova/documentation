@@ -21,6 +21,10 @@ reviews:
     auto_incremental_review: true
     auto_pause_after_reviewed_commits: 0
   enable_prompt_for_ai_agents: false
+  path_instructions:
+    - path: "website/**/*.md"
+      instructions: |
+        When reviewing this file, look at the Vale annotations from the GitHub Checks. For each Vale error or warning annotation on a changed line: read the flagged line in context and judge whether the finding is a real issue. Vale sometimes reports false positives — only create a committable suggestion if it is a genuine error or warning. If it is a false positive, add a comment explaining why it is a false positive and how to avoid it (for example, by rephrasing or by adding the term to the appropriate Vale vocabulary).
   tools:
     github-checks:
       enabled: true
