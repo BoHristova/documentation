@@ -1,5 +1,7 @@
 # .coderabbit.yml
 reviews:
+  path_filters:
+    - "!website/**"
   poem: false
   high_level_summary: false
   changed_files_summary: false
