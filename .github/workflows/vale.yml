@@ -15,8 +15,6 @@ concurrency:
 
 permissions:
   contents: read
-  checks: write
-  pull-requests: write
 
 jobs:
   vale:
@@ -26,11 +24,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Vale
-        uses: vale-cli/vale-action@v2.1.1
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
         with:
-          files: website/
-          vale_flags: "--minAlertLevel=warning"
-          reporter: github-pr-review
-          fail_on_error: true
-          filter_mode: added
+          files: |
+            website/**/*.md
+          files_ignore: |
+            website/about/legal-disclosure.md
+            website/archived/**
+
+      - name: Install Vale
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          wget -qO vale.tar.gz https://github.com/errata-ai/vale/releases/download/v3.14.1/vale_3.14.1_Linux_64-bit.tar.gz
+          tar -xzf vale.tar.gz vale
+          sudo mv vale /usr/local/bin/vale
+
+      - name: Run Vale
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: vale --minAlertLevel=error ${{ steps.changed-files.outputs.all_changed_files }}
