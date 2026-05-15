@@ -2,3 +2,24 @@
 reviews:
   path_filters:
     - "!website/**"
+  poem: false
+  high_level_summary: false
+  changed_files_summary: false
+  sequence_diagrams: false
+  estimate_code_review_effort: false
+  assess_linked_issues: false
+  related_issues: false
+  related_prs: false
+  suggested_labels: false
+  suggested_reviewers: false
+  review_status: false
+  collapse_walkthrough: true
+  request_changes_workflow: false
+  auto_review:
+    enabled: true
+    drafts: false
+  enable_prompt_for_ai_agents: false
+  tools:
+    github-checks:
+      enabled: true
+      timeout_ms: 90000
