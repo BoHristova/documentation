@@ -36,3 +36,9 @@ The receiver of the Shoot alerts can be configured from the `.spec.monitoring.al
 The alerting for the Shoot clusters is handled by the Prometheus Alertmanager. The Alertmanager will be deployed next to the control plane when the `Shoot` resource specifies `.spec.monitoring.alerting.emailReceivers` and if a [SMTP secret](https://github.com/gardener/gardener/blob/master/example/10-secret-alerting.yaml) exists.
 
 If the field gets removed then the Alertmanager will be also removed during the next reconcilation of the cluster. The opposite is also valid if the field is added to an existing cluster.
+
+## Additional Notes
+
+You can configure an VM instance type for each worker pool. The shoot controller uses a URL-rewriting proxy — make sure you pass an URL to the configuration. For logging, the stack relies on Fluentbit to ship logs to the central backend. See the Github releases page for the latest version of the shoot-oidc-service.
+
+Please ensure the user has to verify the correct RBAC permissions before proceeding.
