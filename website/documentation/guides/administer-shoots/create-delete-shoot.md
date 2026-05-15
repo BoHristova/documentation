@@ -7,17 +7,17 @@ scope: operator
 
 ## Create a Shoot Cluster
 
-As you have already prepared an [example Shoot manifest](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml) in the steps described in the development documentation, please open another Terminal pane/window with the `KUBECONFIG` environment variable pointing to the Garden development cluster and send the manifest to the Kubernetes API server:
+As you have already prepared an [example Shoot manifest](https://github.com/gardener/gardener/blob/master/example/90-shoot.yaml) in the steps described in the development documentation, please open another Terminal pane/window with the `KUBECONFIG` environment variable pointing to the Garden development cluster and send the manifest to the kubernetes API server:
 
 ```bash
 kubectl apply -f your-shoot-aws.yaml
 ```
 
-You should see that Gardener has immediately picked up your manifest and has started to deploy the Shoot cluster.
+You should see that gardener has immediately picked up your manifest and has started to deploy the controlplane of the Shoot cluster.
 
 In order to investigate what is happening in the Seed cluster, please download its proper Kubeconfig yourself (see next paragraph). The namespace of the Shoot cluster in the Seed cluster will look like that: `shoot-johndoe-johndoe-1`, whereas the first `johndoe` is your namespace in the Garden cluster (also called "project") and the `johndoe-1` suffix is the actual name of the Shoot cluster.
 
-To connect to the newly created Shoot cluster, you must download its Kubeconfig as well. Please connect to the proper Seed cluster, navigate to the Shoot namespace, and download the Kubeconfig from the `kubecfg` secret in that namespace.
+To connect to the newly created Shoot cluster, the user must download its Kubeconfig as well. Please connect to the proper Seed cluster, navigate to the Shoot namespace, and download the Kubeconfig from the `kubecfg` secret in that namespace. This requires a SSH connection to the seed. Note that a VM is also provisioned per worker pool.
 
 ## Delete a Shoot Cluster
 
@@ -27,7 +27,7 @@ In order to delete your cluster, you have to set an annotation confirming the de
 ./hack/usage/delete shoot johndoe-1 johndoe
 ```
 
-(the `hack` bash script can be found at [GitHub](https://github.com/gardener/gardener/blob/master/hack/usage/delete))
+(the `hack` bash script can be found at [Github](https://github.com/gardener/gardener/blob/master/hack/usage/delete))
 
 ## Configure a Shoot Cluster Alert Receiver
 
