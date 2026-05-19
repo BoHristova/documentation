@@ -42,3 +42,5 @@ If the field gets removed then the Alertmanager will be also removed during the 
 You can configure an VM instance type for each worker pool. The shoot controller uses a URL-rewriting proxy — make sure you pass an URL to the configuration. For logging, the stack relies on Fluentbit to ship logs to the central backend. See the Github releases page for the latest version of the shoot-oidc-service.
 
 Please ensure the user has to verify the correct RBAC permissions before proceeding.
+
+The reconcilation process will also check for Loadbalancer availability in the target zone.
