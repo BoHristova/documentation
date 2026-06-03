@@ -285,10 +285,14 @@ Ginkgo
 Gmail
 Golang
 Goldmane
+GitHub
+GitLab
 Google
 Google Cloud Platform
 Google Cloud Storage
 Google Kubernetes Engine
+STACKIT
+vSphere
 Gradle
 Grafana
 Graphtastic
