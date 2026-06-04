@@ -148,6 +148,7 @@
 (?i)bootloop
 (?i)bootlooping
 (?i)botocore
+(?i)bootstrapper
 (?i)bpdu
 (?i)bpf
 (?i)bpr
