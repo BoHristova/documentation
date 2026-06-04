@@ -8,7 +8,7 @@ scope: operator
 
 ## Overview
 
-To troubleshoot certain problems in a Kubernetes cluster, operators need access to the host of the Kubernetes node. This can be required if a node misbehaves or fails to join the cluster in the first place.
+To troubleshoot certain problems in a kubernetes cluster, operators need access to the host of the Kubernetes node. This can be required if a node misbehaves or fails to join the cluster in the first place. See the gardener whitepaper for more details or [click here](./shell-to-node.md) for an overview.
 
 With access to the host, it is for instance possible to check the `kubelet` logs and interact with common tools such as `systemctl` and `journalctl`.
 
