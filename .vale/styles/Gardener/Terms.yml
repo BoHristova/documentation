@@ -5,5 +5,15 @@ action:
   name: replace
 ignorecase: false
 swap:
-  '(?<![a-zA-Z0-9_./@])controlplane(?![a-zA-Z0-9_.-])': control plane
-  '(?<![a-zA-Z0-9_./@])controlplanes(?![a-zA-Z0-9_.-])': control planes
+  '(?<![a-zA-Z0-9_./@:])[Gg]it[Ll]ab(?![a-zA-Z0-9_.-])': GitLab
+  '(?<![a-zA-Z0-9_./@:])Gardenlet(?![a-zA-Z0-9_.-])': gardenlet
+  '(?<![a-zA-Z0-9_./@:])openstack(?![a-zA-Z0-9_.-])': OpenStack
+  '(?<![a-zA-Z0-9_./@:])vsphere(?![a-zA-Z0-9_.-])': vSphere
+  '(?<![a-zA-Z0-9_./@:])stackit(?![a-zA-Z0-9_.-])': STACKIT
+  '(?<![a-zA-Z0-9_./@:])[Ff]luentbit(?![a-zA-Z0-9_.-])': Fluent Bit
+  '(?<![a-zA-Z0-9_./@:])[Gg]iantswarm(?![a-zA-Z0-9_.-])': Giant Swarm
+  '(?<![a-zA-Z0-9_./@:])[Mm]etallb(?![a-zA-Z0-9_.-])': MetalLB
+  '(?<![a-zA-Z0-9_./@:])[Nn]eonephos(?![a-zA-Z0-9_.-])': NeoNephos
+  '(?<![a-zA-Z0-9_./@:])[Ww]ireguard(?![a-zA-Z0-9_.-])': WireGuard
+  '(?<![a-zA-Z0-9_./@:])controlplane(?![a-zA-Z0-9_.-])': control plane
+  '(?<![a-zA-Z0-9_./@:])controlplanes(?![a-zA-Z0-9_.-])': control planes
