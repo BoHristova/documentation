@@ -2,6 +2,7 @@
 Augustiner
 Bourgon
 Brussel
+bootstrapper
 decentrally
 Freizeitheim
 Hirschegg
@@ -9,6 +10,7 @@ homogenous
 homogenously
 Kunstlaan
 Leverkusen
+inspectable
 matcha
 Mesnerhof
 nonobvious
@@ -20,7 +22,9 @@ Schelklingen
 Schlosshof
 uncompromised
 updateability
+storylines
 toolbelt
+workstreams
 Vitosha
 Walldorf
 Westeurope
