@@ -31,11 +31,11 @@ We appreciate all kinds of contributions – from fixing a typo to implementing 
 
 ## Get Started
 
-<CardGrid :cards="[
+<CardGrid :columns="2" :cards="[
 {
-title: 'Contributor Guide',
+title: 'Contribution Process',
 details: 'Learn how to contribute to Gardener, including contribution workflows, licensing requirements, and best practices.',
-link: '/contribute/contribution-process/contributor-guide'
+link: '/contribute/contribution-process/'
 },
 {
 title: 'Developer Starter Kit',
@@ -48,14 +48,16 @@ link: '/contribute/developer-starter-kit/'
 
 <CardGrid :cards="[
 {
-title: 'Gardener',
-details: 'Browse the developer docs for the core Gardener functionality – development and contribution guidelines, information about networking, observability, how to extend Gardener, and more.',
+title: 'Gardener Core',
+details: 'Browse the developer docs for the core Gardener functionality – development and contribution guidelines, information about networking, observability, and more.',
 link: '/contribute/gardener/'
 },
 {
 title: 'Extensions',
-details: 'Browse the developer docs for the Gardener extensions for infrastructure providers, Kubernetes auditing, registry cache, DNS services, and more.',
-link: '/contribute/extensions/'
+sections: [
+  { details: 'Learn how to build a new Gardener extension – CRD conventions, health checks, admission webhooks, and lifecycle management.', link: '/contribute/build-extensions/', linkText: 'Build a Gardener extension' },
+  { details: 'Browse the developer docs for the Gardener extensions for infrastructure providers, Kubernetes auditing, DNS services, and others.', link: '/contribute/extensions/', linkText: 'Contribute to an existing extension' }
+]
 },
 {
 title: 'Other Components',
