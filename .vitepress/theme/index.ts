@@ -11,6 +11,7 @@ import PageActions from './components/PageActions.vue'
 import PageFeedback from './components/PageFeedback.vue'
 import VPFeatures from './components/VPFeatures.vue'
 import CardGrid from './components/CardGrid.vue'
+import ContribTable from './components/ContribTable.vue'
 import { initAnalytics } from './utils/analytics'
 import './style.css'
 
@@ -30,6 +31,7 @@ export default {
     app.component('YouTubeVideo', YouTubeVideo)
     app.component('VPFeatures', VPFeatures)
     app.component('CardGrid', CardGrid)
+    app.component('ContribTable', ContribTable)
 
     // Plausible is browser-only; guard against SSR build (enhanceApp also runs in Node).
     // Await init so the 404 hook is installed before the initial navigation runs.

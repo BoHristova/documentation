@@ -44,34 +44,14 @@ link: '/contribute/developer-starter-kit/'
 }
 ]"/>
 
-## Contribute to a Specific Area
+## Choose How to Contribute
 
-<CardGrid :cards="[
-{
-title: 'Gardener Core',
-details: 'Browse the developer docs for the core Gardener functionality – development and contribution guidelines, information about networking, observability, and more.',
-link: '/contribute/gardener/'
-},
-{
-title: 'Extensions',
-sections: [
-  { details: 'Learn how to build a new Gardener extension – CRD conventions, health checks, admission webhooks, and lifecycle management.', link: '/contribute/build-extensions/', linkText: 'Build a Gardener extension' },
-  { details: 'Browse the developer docs for the Gardener extensions for infrastructure providers, Kubernetes auditing, DNS services, and others.', link: '/contribute/extensions/', linkText: 'Contribute to an existing extension' }
-]
-},
-{
-title: 'Other Components',
-details: 'Browse the developer docs for components such as Dependency Watchdog, etcd-druid, and Machine Controller Manager.',
-link: '/contribute/other-components/'
-},
-{
-title: 'Dashboard',
-details: 'Browse the developer docs for the Gardener web UI – architecture, local development setup, and testing guidelines.',
-link: '/contribute/dashboard/'
-},
-{
-title: 'Documentation',
-details: 'Browse the guidelines for contributing documentation – writing style, structure, tooling, and how to add or update content.',
-link: '/contribute/documentation/'
-}
+<ContribTable :rows="[
+{ title: 'Contribute to the Core', details: 'Development guidelines and information for working on the core Gardener functionality', link: '/contribute/gardener/' },
+{ title: 'Build Extensions', details: 'CRD conventions, health checks, heartbeat, admission webhooks, and lifecycle management for new extensions', link: '/contribute/build-extensions/' },
+{ groupLabel: 'Contribute to Existing Projects' },
+{ title: 'Extensions', details: 'Developer docs for the existing Gardener extensions for infrastructure providers, DNS, registry cache, and more', link: '/contribute/extensions/', grouped: true },
+{ title: 'Other Components', details: 'Developer docs for Dependency Watchdog, etcd-druid, and Machine Controller Manager', link: '/contribute/other-components/', grouped: true },
+{ title: 'Dashboard', details: 'Architecture, local development setup, and testing guidelines for the Gardener web UI', link: '/contribute/dashboard/', grouped: true },
+{ title: 'Write Documentation', details: 'Writing style, content structure, tooling, and guidelines for contributing to the Gardener docs', link: '/contribute/documentation/' }
 ]"/>

@@ -76,7 +76,7 @@ const props = defineProps<{
   padding: 20px 24px;
   background-color: var(--vp-c-bg-soft);
   text-decoration: none;
-  transition: border-color 0.25s, background-color 0.25s;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .card:hover {
